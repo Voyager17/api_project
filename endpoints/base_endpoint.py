@@ -25,6 +25,7 @@ class BaseEndpoint:
             raise AssertionError(f"Validation error: {e}")
 
     @classmethod
+    @allure.step("Update token")
     def update_token(cls, token: str) -> None:
         """
         Use this carefully because it changes value for base class and for all children
@@ -33,6 +34,7 @@ class BaseEndpoint:
         cls.token = token
         cls.headers["Authorization"] = f"{token}"
 
+    @allure.step("Check life of selected token")
     def check_life_of_your_token(self, headers=None) -> None:
         self.response = requests.get(
             f"{self.url}authorize/{self.token}",
@@ -40,32 +42,37 @@ class BaseEndpoint:
         )
         self.validate_status_code_is_200(error_message="Token is dead")
 
+    @allure.step("Validate that status code is 200")
     def validate_status_code_is_200(
         self, error_message="Status code isn't 200"
     ) -> None:
         assert self.response.status_code == 200, error_message
 
-    def validate_meme_existing(self, meme_id):
+    @allure.step("Validate that meme exists")
+    def validate_meme_existing(self, meme_id) -> None:
         self.response = requests.get(
             f"{self.url}meme/{meme_id}",
             headers=self.headers,
         )
         self.validate_status_code_is_200(error_message="Mem is absent")
 
-    def validate_message_about_deleting(self, meme_id):
+    @allure.step("Validate that message about deleting has come")
+    def validate_message_about_deleting(self, meme_id) -> None:
         assert (
             f"Meme with id {meme_id} successfully deleted"
             in self.response.content.decode()
         ), "Meme wasn't deleted"
 
-    def validate_meme_is_absent(self, meme_id):
+    @allure.step("Validate that meme is absent")
+    def validate_meme_is_absent(self, meme_id) -> None:
         self.response = requests.get(
             f"{self.url}meme/{meme_id}",
             headers=self.headers,
         )
         assert self.response.status_code == 404, "Meme is still living"
 
-    def validate_put_changes(self, data, meme_id):
+    @allure.step("Validate changes for put request")
+    def validate_put_changes(self, data, meme_id) -> None:
         self.response = requests.get(
             f"{self.url}meme/{meme_id}",
             headers=self.headers,
