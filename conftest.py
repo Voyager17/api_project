@@ -45,7 +45,9 @@ def put_meme_by_id_endpoint() -> PutMemeById:
 
 
 @pytest.fixture()
-def create_a_meme_and_get_id(post_meme_endpoint, delete_meme_by_id_endpoint):
+def create_a_meme_and_get_id(
+    post_meme_endpoint: PostMeme, delete_meme_by_id_endpoint: DeleteMemeById
+) -> str:
     data = {
         "text": "Unhappy dogge",
         "url": "https://www.funnyart.club/uploads/posts"
@@ -62,7 +64,7 @@ def create_a_meme_and_get_id(post_meme_endpoint, delete_meme_by_id_endpoint):
 
 
 @pytest.fixture(scope="session", autouse=True)
-def get_token_and_updated_headers(check_life_of_the_token):
+def get_token_and_updated_headers(check_life_of_the_token: bool) -> None:
     data = {"name": "texxtim"}
     if not check_life_of_the_token:
         new_post = PostAuthorization()
@@ -71,7 +73,7 @@ def get_token_and_updated_headers(check_life_of_the_token):
 
 
 @pytest.fixture(scope="session")
-def check_life_of_the_token():
+def check_life_of_the_token() -> bool:
     new_get = GetAuthorizationToken()
     new_get.create_get_authorize_token()
     return True if new_get.response.status_code == 200 else False
