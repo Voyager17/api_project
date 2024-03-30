@@ -23,7 +23,8 @@ jobs:
       - name: Set up Python environment
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.12"
       - name: install dependencies
         run: pip install -r requirements.txt
       - name: run regression tests
+        run: cd tests && pytest -m regression 
