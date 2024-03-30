@@ -1,0 +1,15 @@
+name: api checking tests
+
+on: 
+  workflow_dispatch:
+    inputs: 
+      deployment_target:
+        description: select tests set
+        required: true
+        type: choice
+        default: all
+        options: 
+          - smoke
+          - simple
+          - regression
+          - all
