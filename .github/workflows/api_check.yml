@@ -52,7 +52,7 @@ jobs:
       - name: install Allure
         run: sudo wget https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz && sudo tar -zxvf allure-2.27.0.tgz -C /opt/ && sudo ln -s /opt/allure-2.27.0/bin/allure /usr/bin/allure
       - name: Generate report
-        run: allure generate -c tests/allure-results -o allure-report
+        run: allure generate -c tests/allure-results -o _site
       - name: Save report as an artifact
         uses: actions/upload-artifact@v4
         with: 
