@@ -27,4 +27,15 @@ jobs:
       - name: install dependencies
         run: pip install -r requirements.txt
       - name: run regression tests
+        if: "github.event.inputs.deployment_target == 'regression'"
         run: cd tests && pytest -m regression 
+      - name: run simple tests
+        if: "github.event.inputs.deployment_target == 'simple'"
+        run: cd tests && pytest -m simple 
+      - name: run smoke tests
+        if: "github.event.inputs.deployment_target == 'smoke'"
+        run: cd tests && pytest -m smoke 
+      - name: run all tests
+        if: "github.event.inputs.deployment_target == 'all'"
+        run: cd tests && pytest 
+        
