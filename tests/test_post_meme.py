@@ -1,10 +1,12 @@
 import allure
+import pytest
 
 from endpoints.delete_meme_by_id import DeleteMemeById
 from endpoints.post_meme import PostMeme
 from models.post_meme_model import PostResponseModel
 
 
+@pytest.mark.regression
 @allure.feature("Common user's actions")
 @allure.story("Send a valid Post_Meme request")
 @allure.title("Test for a Post_Meme request")

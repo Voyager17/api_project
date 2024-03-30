@@ -1,9 +1,11 @@
 import allure
+import pytest
 
 from endpoints.post_authorize import PostAuthorization
 from models.post_authorize_model import PostResponseModel
 
 
+@pytest.mark.smoke
 @allure.feature("Common user's actions")
 @allure.story("Send a valid Post_Authorize request")
 @allure.title("Test for a Post_Authorize request")

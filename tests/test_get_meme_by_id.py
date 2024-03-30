@@ -1,9 +1,11 @@
 import allure
+import pytest
 
 from endpoints.get_meme_by_id import GetMemeById
 from models.get_meme_by_id_model import ResponseDataModel
 
 
+@pytest.mark.simple
 @allure.feature("Common user's actions")
 @allure.story("Send a valid Get_Meme_By_Id request")
 @allure.title("Test for a Get_Meme_By_Id request")

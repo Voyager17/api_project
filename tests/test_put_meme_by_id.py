@@ -1,9 +1,11 @@
 import allure
+import pytest
 
 from endpoints.put_meme_by_id import PutMemeById
 from models.put_meme_by_id_model import PutResponseModel
 
 
+@pytest.mark.simple
 @allure.feature("Common user's actions")
 @allure.story("Send a valid Put_Meme request")
 @allure.title("Test for a Put_Meme request")

@@ -1,8 +1,10 @@
 import allure
+import pytest
 
 from endpoints.delete_meme_by_id import DeleteMemeById
 
 
+@pytest.mark.regression
 @allure.feature("Common user's actions")
 @allure.story("Send a valid Delete_meme request")
 @allure.title("Test for a DELETE request")
