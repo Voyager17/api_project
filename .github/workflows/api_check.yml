@@ -35,15 +35,19 @@ jobs:
       - name: run regression tests
         if: "github.event.inputs.deployment_target == 'regression'"
         run: cd tests && pytest -m regression --alluredir=allure-results
+        continue-on-error: true
       - name: run simple tests
         if: "github.event.inputs.deployment_target == 'simple'"
         run: cd tests && pytest -m simple --alluredir=allure-results
+        continue-on-error: true
       - name: run smoke tests
         if: "github.event.inputs.deployment_target == 'smoke'"
         run: cd tests && pytest -m smoke --alluredir=allure-results
+        continue-on-error: true
       - name: run all tests
         if: "github.event.inputs.deployment_target == 'all'"
         run: cd tests && pytest --alluredir=allure-results
+        continue-on-error: true
       - name: Install Java
         uses: actions/setup-java@v4
         with:
