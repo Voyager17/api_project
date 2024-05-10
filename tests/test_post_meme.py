@@ -13,6 +13,13 @@ from models.post_meme_model import PostResponseModel
 def test_post_meme(
     post_meme_endpoint: PostMeme, delete_meme_by_id_endpoint: DeleteMemeById
 ) -> None:
+    """
+    1. Post a meme
+    2. Validate a response model
+    3. Validate that created meme exists
+    4. Delete created meme
+    """
+
     data = {
         "text": "Sad dogge",
         "url": "https://www.funnyart.club/uploads/posts"

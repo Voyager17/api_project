@@ -12,6 +12,13 @@ from models.put_meme_by_id_model import PutResponseModel
 def test_put_meme_by_id(
     put_meme_by_id_endpoint: PutMemeById, create_a_meme_and_get_id: str
 ) -> None:
+    """
+    1. Create a meme and get its id
+    2. Change the information in the created meme
+    3. Validate a response model
+    4. Validate changes after changing
+    """
+
     meme_id = create_a_meme_and_get_id
 
     data = {

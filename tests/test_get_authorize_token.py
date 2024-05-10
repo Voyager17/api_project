@@ -11,5 +11,9 @@ from endpoints.get_authorize_token import GetAuthorizationToken
 def test_get_authorize_token(
     get_authorize_token_endpoint: GetAuthorizationToken,
 ) -> None:
+    """
+    1. Create the authorization token
+    2. Validate that status code is 200
+    """
     get_authorize_token_endpoint.create_get_authorize_token()
     get_authorize_token_endpoint.validate_status_code_is_200()
