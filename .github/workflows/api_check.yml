@@ -13,6 +13,12 @@ on:
           - simple
           - regression
           - all
+          
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+      
 jobs:
   run-tests:
     runs-on: ubuntu-latest
@@ -28,14 +34,45 @@ jobs:
         run: pip install -r requirements.txt
       - name: run regression tests
         if: "github.event.inputs.deployment_target == 'regression'"
-        run: cd tests && pytest -m regression 
+        run: cd tests && pytest -m regression --alluredir=allure-results
+        continue-on-error: true
       - name: run simple tests
         if: "github.event.inputs.deployment_target == 'simple'"
-        run: cd tests && pytest -m simple 
+        run: cd tests && pytest -m simple --alluredir=allure-results
+        continue-on-error: true
       - name: run smoke tests
         if: "github.event.inputs.deployment_target == 'smoke'"
-        run: cd tests && pytest -m smoke 
+        run: cd tests && pytest -m smoke --alluredir=allure-results
+        continue-on-error: true
       - name: run all tests
         if: "github.event.inputs.deployment_target == 'all'"
-        run: cd tests && pytest 
+        run: cd tests && pytest --alluredir=allure-results
+        continue-on-error: true
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'microsoft'
+          java-version: '17'
+      - name: install Allure
+        run: sudo wget https://github.com/allure-framework/allure2/releases/download/2.27.0/allure-2.27.0.tgz && sudo tar -zxvf allure-2.27.0.tgz -C /opt/ && sudo ln -s /opt/allure-2.27.0/bin/allure /usr/bin/allure
+      - name: Generate report
+        run: allure generate -c tests/allure-results -o _site
+      - name: Save report as an artifact
+        uses: actions/upload-artifact@v4
+        with: 
+          name: _site
+          path: _site
+          retention-days: 1
         
+  publish-report:
+    name: Allure report
+    runs-on: ubuntu-latest
+    needs: run-tests
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
